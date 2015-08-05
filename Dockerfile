@@ -17,3 +17,5 @@ RUN sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
 RUN update-rc.d hostapd enable
 RUN update-rc.d isc-dhcp-server enable 
+
+RUN ifconfig wlan0 192.134.3.1
