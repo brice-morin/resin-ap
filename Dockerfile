@@ -9,6 +9,9 @@ COPY isc-dhcp-server /etc/default
 COPY interfaces /etc/network
 COPY sysctl.conf /etc
 
+COPY run.sh /app
+
+
 RUN iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 RUN iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 RUN iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT 
@@ -18,4 +21,6 @@ RUN sh -c "iptables-save > /etc/iptables.ipv4.nat"
 RUN update-rc.d hostapd enable
 RUN update-rc.d isc-dhcp-server enable 
 
-RUN ifconfig wlan0 192.134.3.1
+WORKDIR /app
+
+CMD ["./run.sh"]
