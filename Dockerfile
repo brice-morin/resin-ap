@@ -2,12 +2,12 @@ FROM resin/rpi-raspbian:latest
 
 RUN apt-get update && apt-get install -y hostapd isc-dhcp-server iptables wpasupplicant && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY hostapd.conf /etc/hostapd/hostapd.conf
-COPY hostapd /etc/default/hostapd
-COPY dhcpd.conf /etc/dhcp/dhcpd.conf 
-COPY isc-dhcp-server /etc/default/isc-dhcp-server
-COPY interfaces /etc/network/interfaces
-COPY sysctl.conf /etc/sysctl.conf
+COPY hostapd.conf /etc/hostapd
+COPY hostapd /etc/default
+COPY dhcpd.conf /etc/dhcp 
+COPY isc-dhcp-server /etc/default
+COPY interfaces /etc/network
+COPY sysctl.conf /etc
 
 RUN iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 RUN iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
